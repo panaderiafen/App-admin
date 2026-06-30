@@ -62,17 +62,12 @@ body::before {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.wheat-mark {
-  width: 44px; height: 44px;
+.logo-mark {
+  display: block;
+  width: 88px;
+  height: auto;
   margin: 0 auto 18px;
-  color: var(--wheat);
-}
-.login-card h1 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 30px;
-  font-weight: 600;
-  color: var(--blue);
-  letter-spacing: -0.01em;
+  border-radius: 12px;
 }
 .login-card .sub {
   font-size: 13px;
@@ -168,13 +163,7 @@ body::before {
   margin: 0 auto;
 }
 .panel-header .brand { display: flex; align-items: center; gap: 12px; }
-.panel-header .wheat-mark { width: 30px; height: 30px; margin: 0; }
-.panel-header h1 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--blue);
-}
+.panel-header .logo-mark { width: 38px; height: 38px; margin: 0; border-radius: 9px; object-fit: cover; }
 .panel-header .user-email { font-size: 11.5px; color: var(--ink-soft); }
 .btn-logout {
   background: none;
@@ -305,14 +294,7 @@ body::before {
 <!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-card">
-    <svg class="wheat-mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M24 4 L24 44" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      <path d="M24 10 L16 16 M24 10 L32 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      <path d="M24 18 L15 24 M24 18 L33 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      <path d="M24 26 L16 32 M24 26 L32 32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      <path d="M24 34 L17 39 M24 34 L31 39" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-    </svg>
-    <h1>Fën</h1>
+    <img class="logo-mark" src="logosecundario.jpg" alt="Fën"/>
     <div class="sub">Panel de administración</div>
     <form id="loginForm" onsubmit="return false;">
       <div class="field">
@@ -343,15 +325,8 @@ body::before {
 <div id="panelScreen">
   <div class="panel-header">
     <div class="brand">
-      <svg class="wheat-mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M24 4 L24 44" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M24 10 L16 16 M24 10 L32 16" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M24 18 L15 24 M24 18 L33 24" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M24 26 L16 32 M24 26 L32 32" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M24 34 L17 39 M24 34 L31 39" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
+      <img class="logo-mark" src="logosecundario.jpg" alt="Fën"/>
       <div>
-        <h1>Fën</h1>
         <div class="user-email" id="userEmail"></div>
       </div>
     </div>
