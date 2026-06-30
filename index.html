@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"/>
+<title>Fën · Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FAF6EE;
+  --cream-deep: #F1E9D8;
+  --ink: #2B2420;
+  --ink-soft: #6B6052;
+  --blue: #003a79;
+  --blue-deep: #00284f;
+  --wheat: #C1772E;
+  --wheat-light: #E9D2AC;
+  --white: #FFFFFF;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+.font-display { font-family: 'Fraunces', Georgia, serif; }
+
+/* Textura de grano sutil de fondo */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(43,36,32,0.035) 1px, transparent 0);
+  background-size: 22px 22px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ───────── LOGIN ───────── */
+#loginScreen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative; z-index: 1;
+}
+.login-card {
+  width: 100%; max-width: 380px;
+  background: var(--white);
+  border-radius: 20px;
+  padding: 40px 32px 32px;
+  box-shadow: 0 20px 60px -20px rgba(43,36,32,0.25);
+  text-align: center;
+  animation: riseUp 0.6s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes riseUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.wheat-mark {
+  width: 44px; height: 44px;
+  margin: 0 auto 18px;
+  color: var(--wheat);
+}
+.login-card h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--blue);
+  letter-spacing: -0.01em;
+}
+.login-card .sub {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+  margin-bottom: 28px;
+}
+.field { text-align: left; margin-bottom: 14px; }
+.field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+.field input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--cream-deep);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--cream);
+  color: var(--ink);
+  outline: none;
+  transition: border-color .15s;
+}
+.field input:focus { border-color: var(--blue); background: var(--white); }
+.btn-login {
+  width: 100%;
+  padding: 13px;
+  margin-top: 6px;
+  border: none;
+  border-radius: 10px;
+  background: var(--blue);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+}
+.btn-login:hover { background: var(--blue-deep); }
+.btn-login:active { transform: scale(0.98); }
+.btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
+.login-error {
+  display: none;
+  margin-top: 14px;
+  padding: 10px 12px;
+  background: #FDEEEC;
+  border: 1px solid #F3C7C0;
+  border-radius: 8px;
+  color: #B23A2E;
+  font-size: 12.5px;
+  text-align: left;
+}
+
+/* ───────── ACCESO DENEGADO ───────── */
+#deniedScreen {
+  display: none;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative; z-index: 1;
+}
+.denied-card {
+  width: 100%; max-width: 380px;
+  background: var(--white);
+  border-radius: 20px;
+  padding: 36px 28px;
+  text-align: center;
+  box-shadow: 0 20px 60px -20px rgba(43,36,32,0.25);
+}
+.denied-card .icon { font-size: 36px; margin-bottom: 14px; }
+.denied-card h2 { font-family: 'Fraunces', Georgia, serif; font-size: 20px; color: var(--ink); margin-bottom: 8px; }
+.denied-card p { font-size: 13px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 20px; }
+
+/* ───────── PANEL ───────── */
+#panelScreen {
+  display: none;
+  min-height: 100vh;
+  position: relative; z-index: 1;
+}
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 24px 8px;
+  max-width: 880px;
+  margin: 0 auto;
+}
+.panel-header .brand { display: flex; align-items: center; gap: 12px; }
+.panel-header .wheat-mark { width: 30px; height: 30px; margin: 0; }
+.panel-header h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--blue);
+}
+.panel-header .user-email { font-size: 11.5px; color: var(--ink-soft); }
+.btn-logout {
+  background: none;
+  border: 1.5px solid var(--cream-deep);
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.btn-logout:hover { border-color: var(--blue); color: var(--blue); }
+
+.panel-intro {
+  max-width: 880px;
+  margin: 28px auto 8px;
+  padding: 0 24px;
+}
+.panel-intro .eyebrow {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--wheat);
+  margin-bottom: 8px;
+}
+.panel-intro h2 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--ink);
+  max-width: 480px;
+  line-height: 1.15;
+}
+
+.apps-grid {
+  max-width: 880px;
+  margin: 28px auto 60px;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+@media (max-width: 640px) {
+  .apps-grid { grid-template-columns: 1fr; }
+  .panel-intro h2 { font-size: 24px; }
+}
+
+.app-card {
+  background: var(--white);
+  border-radius: 18px;
+  padding: 26px 24px;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 24px -12px rgba(43,36,32,0.12);
+  transition: transform .18s cubic-bezier(.2,.8,.2,1), box-shadow .18s;
+  opacity: 0;
+  animation: riseUp 0.5s cubic-bezier(.2,.8,.2,1) forwards;
+}
+.app-card:nth-child(1) { animation-delay: .05s; }
+.app-card:nth-child(2) { animation-delay: .12s; }
+.app-card:nth-child(3) { animation-delay: .19s; }
+.app-card:nth-child(4) { animation-delay: .26s; }
+.app-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px -14px rgba(43,36,32,0.22);
+}
+.app-card .accent-bar {
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+}
+.app-card .icon-wrap {
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+.app-card h3 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.app-card p {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+.app-card .open-row {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12.5px; font-weight: 600;
+}
+.app-card .open-row svg { width: 13px; height: 13px; transition: transform .18s; }
+.app-card:hover .open-row svg { transform: translateX(3px); }
+
+.card-b2c .accent-bar, .card-b2c .open-row { color: var(--blue); }
+.card-b2c .icon-wrap { background: #E8F0FB; color: var(--blue); }
+.card-b2c .accent-bar { background: var(--blue); }
+
+.card-b2b .accent-bar, .card-b2b .open-row { color: #1D7A5F; }
+.card-b2b .icon-wrap { background: #E3F3EC; color: #1D7A5F; }
+.card-b2b .accent-bar { background: #1D7A5F; }
+
+.card-gastos .accent-bar, .card-gastos .open-row { color: #B2382B; }
+.card-gastos .icon-wrap { background: #FBE9E6; color: #B2382B; }
+.card-gastos .accent-bar { background: #B2382B; }
+
+.card-produccion .accent-bar, .card-produccion .open-row { color: var(--wheat); }
+.card-produccion .icon-wrap { background: var(--wheat-light); color: #8A5418; }
+.card-produccion .accent-bar { background: var(--wheat); }
+
+.panel-footer {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 24px 40px;
+  text-align: center;
+  font-size: 11.5px;
+  color: var(--ink-soft);
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-card">
+    <svg class="wheat-mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M24 4 L24 44" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M24 10 L16 16 M24 10 L32 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M24 18 L15 24 M24 18 L33 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M24 26 L16 32 M24 26 L32 32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M24 34 L17 39 M24 34 L31 39" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <h1>Fën</h1>
+    <div class="sub">Panel de administración</div>
+    <form id="loginForm" onsubmit="return false;">
+      <div class="field">
+        <label for="loginEmail">Correo</label>
+        <input type="email" id="loginEmail" autocomplete="username" placeholder="tu@correo.com"/>
+      </div>
+      <div class="field">
+        <label for="loginPassword">Contraseña</label>
+        <input type="password" id="loginPassword" autocomplete="current-password" placeholder="••••••••"/>
+      </div>
+      <button type="submit" class="btn-login" id="btnLogin" onclick="login()">Ingresar</button>
+    </form>
+    <div class="login-error" id="loginError"></div>
+  </div>
+</div>
+
+<!-- ACCESO DENEGADO -->
+<div id="deniedScreen">
+  <div class="denied-card">
+    <div class="icon">🔒</div>
+    <h2>Sin acceso de administrador</h2>
+    <p>Esta cuenta no tiene permisos de administrador en el sistema Fën. Si crees que esto es un error, contacta al administrador principal.</p>
+    <button class="btn-logout" onclick="logout()" style="width:100%;padding:11px">Cerrar sesión</button>
+  </div>
+</div>
+
+<!-- PANEL -->
+<div id="panelScreen">
+  <div class="panel-header">
+    <div class="brand">
+      <svg class="wheat-mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M24 4 L24 44" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M24 10 L16 16 M24 10 L32 16" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M24 18 L15 24 M24 18 L33 24" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M24 26 L16 32 M24 26 L32 32" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M24 34 L17 39 M24 34 L31 39" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <h1>Fën</h1>
+        <div class="user-email" id="userEmail"></div>
+      </div>
+    </div>
+    <button class="btn-logout" onclick="logout()">Cerrar sesión</button>
+  </div>
+
+  <div class="panel-intro">
+    <div class="eyebrow">Panel de administración</div>
+    <h2>Todos tus sistemas, en un solo lugar.</h2>
+  </div>
+
+  <div class="apps-grid">
+    <a class="app-card card-b2c" href="https://panaderiafen.github.io/fen-ventas/" target="_blank" rel="noopener">
+      <div class="accent-bar"></div>
+      <div class="icon-wrap">🛒</div>
+      <h3>Ventas B2C</h3>
+      <p>Punto de venta, caja, stock y reportes de las sucursales.</p>
+      <div class="open-row">Abrir <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="app-card card-b2b" href="https://panaderiafen.github.io/Admin-Ventas-B2B-fen/" target="_blank" rel="noopener">
+      <div class="accent-bar"></div>
+      <div class="icon-wrap">📋</div>
+      <h3>Ventas B2B</h3>
+      <p>Pedidos y ventas a empresas y clientes mayoristas.</p>
+      <div class="open-row">Abrir <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="app-card card-gastos" href="https://panaderiafen.github.io/registro-gasto/" target="_blank" rel="noopener">
+      <div class="accent-bar"></div>
+      <div class="icon-wrap">🧾</div>
+      <h3>Registro de Gastos</h3>
+      <p>Control de gastos operativos por sucursal.</p>
+      <div class="open-row">Abrir <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="app-card card-produccion" href="https://panaderiafen.github.io/fen-produccion/" target="_blank" rel="noopener">
+      <div class="accent-bar"></div>
+      <div class="icon-wrap">🌾</div>
+      <h3>Recetas y Producción</h3>
+      <p>Recetas, insumos y planificación de producción.</p>
+      <div class="open-row">Abrir <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+  </div>
+
+  <div class="panel-footer">Fën · Panel de administración</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// Mismo proyecto Firebase que el sistema de Ventas B2C — las cuentas admin
+// ya existentes funcionan aquí sin necesidad de crear nada nuevo.
+const firebaseConfig = {
+  apiKey: "AIzaSyDrG2mij1h5wZ2lIyAYMTfgG9avaVnjcaU",
+  authDomain: "fen-ventas.firebaseapp.com",
+  projectId: "fen-ventas",
+  storageBucket: "fen-ventas.firebasestorage.app",
+  messagingSenderId: "265179393436",
+  appId: "1:265179393436:web:75f74773c0cb992ca3ac59"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+function showScreen(id) {
+  ['loginScreen', 'deniedScreen', 'panelScreen'].forEach(s => {
+    document.getElementById(s).style.display = (s === id) ? (s === 'panelScreen' ? 'block' : 'flex') : 'none';
+  });
+}
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) { showScreen('loginScreen'); return; }
+  try {
+    const adminDoc = await getDoc(doc(db, 'admins', user.uid));
+    if (adminDoc.exists()) {
+      document.getElementById('userEmail').textContent = user.email;
+      showScreen('panelScreen');
+    } else {
+      showScreen('deniedScreen');
+    }
+  } catch (e) {
+    console.error('Error verificando permisos:', e);
+    showScreen('deniedScreen');
+  }
+});
+
+window.login = async function() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPassword').value;
+  const btn   = document.getElementById('btnLogin');
+  const err   = document.getElementById('loginError');
+  err.style.display = 'none';
+  if (!email || !pass) {
+    err.textContent = 'Ingresa tu correo y contraseña.';
+    err.style.display = 'block';
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = 'Ingresando...';
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+  } catch (e) {
+    err.textContent = 'Correo o contraseña incorrectos.';
+    err.style.display = 'block';
+  }
+  btn.disabled = false;
+  btn.textContent = 'Ingresar';
+};
+
+window.logout = async function() {
+  await signOut(auth);
+};
+
+// Enter para enviar el formulario de login
+document.getElementById('loginPassword').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') window.login();
+});
+</script>
+</body>
+</html>
