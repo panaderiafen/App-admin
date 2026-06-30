@@ -402,7 +402,7 @@ body::before {
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // Mismo proyecto Firebase que el sistema de Ventas B2C — las cuentas admin
@@ -419,6 +419,15 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
+// IMPORTANTE: este panel y el sistema de Ventas B2C viven bajo el mismo
+// dominio (panaderiafen.github.io) y usan el mismo proyecto Firebase, por lo
+// que por defecto compartirían la misma sesión guardada en el navegador —
+// iniciar sesión acá podría "pisar" la sesión abierta del POS en otra
+// pestaña. Para evitarlo, este panel usa una sesión aislada por pestaña
+// (no persiste en el almacenamiento compartido del dominio), así no afecta
+// ni es afectado por la sesión del sistema de ventas.
+await setPersistence(auth, browserSessionPersistence);
 
 function showScreen(id) {
   ['loginScreen', 'deniedScreen', 'panelScreen'].forEach(s => {
