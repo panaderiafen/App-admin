@@ -229,6 +229,7 @@ body::before {
 .app-card:nth-child(2) { animation-delay: .12s; }
 .app-card:nth-child(3) { animation-delay: .19s; }
 .app-card:nth-child(4) { animation-delay: .26s; }
+.app-card:nth-child(5) { animation-delay: .33s; }
 .app-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 16px 32px -14px rgba(43,36,32,0.22);
@@ -274,6 +275,10 @@ body::before {
 .card-gastos .accent-bar, .card-gastos .open-row { color: #B2382B; }
 .card-gastos .icon-wrap { background: #FBE9E6; color: #B2382B; }
 .card-gastos .accent-bar { background: #B2382B; }
+
+.card-asistencia .accent-bar, .card-asistencia .open-row { color: #5C3D8F; }
+.card-asistencia .icon-wrap { background: #EDE8F5; color: #5C3D8F; }
+.card-asistencia .accent-bar { background: #5C3D8F; }
 
 .card-produccion .accent-bar, .card-produccion .open-row { color: var(--wheat); }
 .card-produccion .icon-wrap { background: var(--wheat-light); color: #8A5418; }
@@ -368,6 +373,14 @@ body::before {
       <div class="icon-wrap">🌾</div>
       <h3>Recetas y Producción</h3>
       <p>Recetas, insumos y planificación de producción.</p>
+      <div class="open-row">Abrir <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="app-card card-asistencia" href="https://panaderiafen.github.io/fen-asistencia/admin.html" target="_blank" rel="noopener">
+      <div class="accent-bar"></div>
+      <div class="icon-wrap">🕐</div>
+      <h3>Asistencia</h3>
+      <p>Registro de turnos, horas extras, BHE y reportes para contadora.</p>
       <div class="open-row">Abrir <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     </a>
   </div>
